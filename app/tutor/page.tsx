@@ -40,10 +40,10 @@ export default function TutorPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center p-6">
+    <div className="flex min-h-screen flex-col items-center p-6 bg-gray-50">
       <h1 className="text-2xl font-bold mb-4">AI Tutor</h1>
 
-      <div className="w-full max-w-2xl flex-1 border rounded-lg p-4 mb-4 overflow-y-auto">
+      <div className="w-full max-w-2xl flex-1 bg-white border rounded-lg p-4 mb-4 overflow-y-auto shadow-sm">
         {messages.map((msg, index) => (
           <div key={index} className="mb-2">
             <span className="font-semibold">
@@ -57,11 +57,16 @@ export default function TutorPage() {
 
       <div className="w-full max-w-2xl flex gap-2">
         <input
-          type="text"
-          className="flex-1 border rounded-lg p-3"
-          placeholder="Ask something..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
+        type="text"
+        className="flex-1 border rounded-lg p-3 shadow-sm"
+        placeholder="Ask something..."
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={(e) => {
+            if (e.key === "Enter") {
+            handleSend();
+            }
+        }}
         />
         <button
           onClick={handleSend}
