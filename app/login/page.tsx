@@ -27,45 +27,45 @@ export default function LoginPage() {
     }
   };
 
-  return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow">
-        <h1 className="mb-6 text-2xl font-bold text-center">
-          Welcome to Edvo
-        </h1>
+return (
+  <div className="flex min-h-screen items-center justify-center bg-gray-50">
+    <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-sm">
+      <h1 className="text-2xl font-bold mb-6 text-center">
+        Login to Edvo
+      </h1>
 
-        <form onSubmit={handleLogin} className="space-y-4">
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full rounded-lg border p-3"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+      <form onSubmit={handleLogin} className="flex flex-col gap-4">
+        <input
+          type="email"
+          placeholder="Email"
+          className="border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full rounded-lg border p-3"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+        <input
+          type="password"
+          placeholder="Password"
+          className="border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-black p-3 text-white"
-          >
-            Login
-          </button>
-        </form>
+        <button
+          type="submit"
+          className="bg-black text-white p-3 rounded-lg hover:opacity-90 transition"
+        >
+          Login
+        </button>
+      </form>
 
-        <p className="mt-4 text-center text-sm">
-          Don’t have an account?{" "}
-          <Link href="/signup" className="underline">
-            Sign up
-          </Link>
-        </p>
-      </div>
+      <p className="text-sm text-center mt-4 text-gray-600">
+        Don’t have an account?{" "}
+        <a href="/signup" className="text-black font-medium">
+          Sign up
+        </a>
+      </p>
     </div>
-  );
+  </div>
+);
 }
