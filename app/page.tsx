@@ -61,14 +61,13 @@ export default function LandingPage() {
       }}>
 
         {/* Logo */}
-        {/* Logo */}
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <img
             src="/logo.png"
             alt="edvo"
             style={{
-              width: 48,
-              height: 48,
+              width: 160,
+              height: 160,
               objectFit: "contain",
             }}
           />
