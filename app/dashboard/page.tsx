@@ -1,11 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
   const router = useRouter();
   const [activePage, setActivePage] = useState("dashboard");
+  const [userName, setUserName] = useState("there");
+
+  useEffect(() => {
+    const stored = localStorage.getItem("edvo_user_name");
+    if (stored) setUserName(stored.split(" ")[0]);
+  }, []);
 
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: "⊞" },
@@ -14,6 +20,11 @@ export default function DashboardPage() {
     { id: "quiz", label: "Quiz", icon: "🎯" },
     { id: "settings", label: "Settings", icon: "⚙️" },
   ];
+
+  const handleLogout = () => {
+    localStorage.removeItem("edvo_user_name");
+    router.push("/");
+  };
 
   return (
     <div style={{
@@ -35,7 +46,6 @@ export default function DashboardPage() {
         flexShrink: 0,
       }}>
 
-        {/* Logo */}
         <div>
           <img
             src="/logo.png"
@@ -50,7 +60,6 @@ export default function DashboardPage() {
             }}
           />
 
-          {/* Nav items */}
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             {navItems.map((item) => (
               <button
@@ -88,7 +97,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* User profile at bottom */}
+        {/* User profile */}
         <div style={{
           borderTop: "1px solid rgba(255,255,255,0.1)",
           paddingTop: 16,
@@ -109,11 +118,11 @@ export default function DashboardPage() {
             color: "#0a5e6d",
             flexShrink: 0,
           }}>
-            A
+            {userName.charAt(0).toUpperCase()}
           </div>
           <div>
             <div style={{ fontSize: 13, fontWeight: 600, color: "#ffffff" }}>
-              Alex Chen
+              {userName}
             </div>
             <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)" }}>
               Year 12
@@ -150,7 +159,7 @@ export default function DashboardPage() {
             </div>
           </div>
           <button
-            onClick={() => router.push("/")}
+            onClick={handleLogout}
             style={{
               fontSize: 13,
               color: "#5a7a82",
@@ -201,7 +210,7 @@ export default function DashboardPage() {
                 fontFamily: "Georgia, serif",
                 marginBottom: 4,
               }}>
-                Good morning, Alex 👋
+                Good morning, {userName} 👋
               </div>
               <div style={{ fontSize: 13, color: "rgba(255,255,255,0.6)" }}>
                 You have 3 topics to review before your Chemistry exam.

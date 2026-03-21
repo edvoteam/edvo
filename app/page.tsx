@@ -30,10 +30,18 @@ export default function LandingPage() {
         body,
       });
       const data = await res.json();
+
       if (!res.ok) {
         setError(data.error || "Something went wrong");
         return;
       }
+
+      if (mode === "signup") {
+        localStorage.setItem("edvo_user_name", name);
+      } else {
+        localStorage.setItem("edvo_user_name", data.user?.name || email);
+      }
+
       router.push("/dashboard");
     } catch {
       setError("Network error. Please try again.");
@@ -69,7 +77,7 @@ export default function LandingPage() {
               width: 140,
               height: 140,
               objectFit: "contain",
-              mixBlendMode: "screen",
+              mixBlendMode: "luminosity",
             }}
           />
         </div>
@@ -114,7 +122,6 @@ export default function LandingPage() {
             curriculum and available 24/7.
           </p>
 
-          {/* Feature pills */}
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             {["AI Tutor", "Smart Notes", "Practice Quizzes"].map((f) => (
               <span key={f} style={{
@@ -132,7 +139,6 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Footer */}
         <p style={{ fontSize: 11, color: "rgba(255,255,255,0.25)" }}>
           © 2025 edvo · Built for South Australian students
         </p>
@@ -181,7 +187,6 @@ export default function LandingPage() {
             ))}
           </div>
 
-          {/* Heading */}
           <h2 style={{
             fontSize: 26,
             fontWeight: 600,
@@ -197,7 +202,6 @@ export default function LandingPage() {
               : "Sign in to continue to edvo."}
           </p>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} style={{
             display: "flex",
             flexDirection: "column",
@@ -308,7 +312,6 @@ export default function LandingPage() {
             </button>
           </form>
 
-          {/* Below form links */}
           <div style={{ marginTop: 20, textAlign: "center" }}>
             {mode === "login" && (
               <p style={{ fontSize: 12, color: "#5a7a82" }}>
@@ -323,13 +326,9 @@ export default function LandingPage() {
             {mode === "signup" && (
               <p style={{ fontSize: 12, color: "#5a7a82", lineHeight: 1.6 }}>
                 By creating an account you agree to our{" "}
-                <span style={{ color: "#0d7a8c", cursor: "pointer" }}>
-                  Terms
-                </span>
+                <span style={{ color: "#0d7a8c", cursor: "pointer" }}>Terms</span>
                 {" "}and{" "}
-                <span style={{ color: "#0d7a8c", cursor: "pointer" }}>
-                  Privacy Policy
-                </span>.
+                <span style={{ color: "#0d7a8c", cursor: "pointer" }}>Privacy Policy</span>.
               </p>
             )}
           </div>
