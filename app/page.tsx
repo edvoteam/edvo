@@ -69,7 +69,8 @@ export default function LandingPage() {
               width: 140,
               height: 140,
               objectFit: "contain",
-              mixBlendMode: "screen",
+              mixBlendMode: "luminosity",
+              opacity: 0.95,
             }}
           />
         </div>
@@ -303,8 +304,8 @@ export default function LandingPage() {
               {loading
                 ? "Please wait..."
                 : mode === "signup"
-                ? "Create account →"
-                : "Sign in →"}
+                  ? "Create account →"
+                  : "Sign in →"}
             </button>
           </form>
 
