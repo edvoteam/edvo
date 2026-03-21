@@ -118,8 +118,8 @@ export default function LandingPage() {
             src="/logo.png"
             alt="edvo"
             style={{
-              width: 250,
-              height: 250,
+              width: 200,
+              height: 200,
               objectFit: "contain",
             }}
           />
@@ -160,8 +160,7 @@ export default function LandingPage() {
             maxWidth: 340,
             marginBottom: 32,
           }}>
-            Your AI-powered study partner — aligned to the SACE
-            curriculum and available 24/7.
+            Your AI-powered study partner — aligned to the SACE curriculum and available 24/7.
           </p>
 
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
