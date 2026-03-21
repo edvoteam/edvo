@@ -22,15 +22,11 @@ const YEAR_LEVELS = ["Year 10", "Year 11", "Year 12"];
 export default function LandingPage() {
   const router = useRouter();
   const [mode, setMode] = useState<"signup" | "login">("signup");
-
-  // Sign up fields
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [yearLevel, setYearLevel] = useState("");
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
-
-  // UI state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -47,23 +43,16 @@ export default function LandingPage() {
     setError("");
 
     if (mode === "signup") {
-      if (!yearLevel) {
-        setError("Please select your year level.");
-        return;
-      }
-      if (selectedSubjects.length === 0) {
-        setError("Please select at least one subject.");
-        return;
-      }
+      if (!yearLevel) { setError("Please select your year level."); return; }
+      if (selectedSubjects.length === 0) { setError("Please select at least one subject."); return; }
     }
 
     setLoading(true);
 
     const endpoint = mode === "signup" ? "/api/signup" : "/api/login";
-    const body =
-      mode === "signup"
-        ? JSON.stringify({ name, email, password, yearLevel, subjects: selectedSubjects })
-        : JSON.stringify({ email, password });
+    const body = mode === "signup"
+      ? JSON.stringify({ name, email, password, yearLevel, subjects: selectedSubjects })
+      : JSON.stringify({ email, password });
 
     try {
       const res = await fetch(endpoint, {
@@ -73,10 +62,7 @@ export default function LandingPage() {
       });
       const data = await res.json();
 
-      if (!res.ok) {
-        setError(data.error || "Something went wrong");
-        return;
-      }
+      if (!res.ok) { setError(data.error || "Something went wrong"); return; }
 
       if (mode === "signup") {
         localStorage.setItem("edvo_user_name", name);
@@ -94,6 +80,19 @@ export default function LandingPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    padding: "12px 16px",
+    fontSize: 14,
+    borderRadius: 10,
+    border: "1.5px solid #a0c8d8",
+    outline: "none",
+    color: "#071e22",
+    backgroundColor: "#ffffff",
+    fontFamily: "system-ui, sans-serif",
+    boxSizing: "border-box",
   };
 
   return (
@@ -119,11 +118,7 @@ export default function LandingPage() {
           <img
             src="/logo.png"
             alt="edvo"
-            style={{
-              width: 100,
-              height: 100,
-              objectFit: "contain",
-            }}
+            style={{ width: 80, height: 80, objectFit: "contain" }}
           />
         </div>
 
@@ -188,7 +183,6 @@ export default function LandingPage() {
         <p style={{ fontSize: 11, color: "rgba(255,255,255,0.25)" }}>
           © 2025 edvo · Built for South Australian students
         </p>
-
       </div>
 
       {/* ── RIGHT — Auth panel ── */}
@@ -206,7 +200,7 @@ export default function LandingPage() {
           {/* Toggle */}
           <div style={{
             display: "flex",
-            backgroundColor: "#f2f8f9",
+            backgroundColor: "#f0f7f9",
             borderRadius: 12,
             padding: 4,
             marginBottom: 28,
@@ -225,7 +219,7 @@ export default function LandingPage() {
                   cursor: "pointer",
                   transition: "all 0.2s",
                   backgroundColor: mode === m ? "#ffffff" : "transparent",
-                  color: mode === m ? "#0d7a8c" : "#5a7a82",
+                  color: mode === m ? "#007090" : "#5a7a82",
                   boxShadow: mode === m ? "0 1px 4px rgba(0,0,0,0.08)" : "none",
                   fontFamily: "system-ui, sans-serif",
                 }}
@@ -235,7 +229,6 @@ export default function LandingPage() {
             ))}
           </div>
 
-          {/* Heading */}
           <h2 style={{
             fontSize: 24,
             fontWeight: 600,
@@ -246,19 +239,11 @@ export default function LandingPage() {
             {mode === "signup" ? "Get started free" : "Welcome back"}
           </h2>
           <p style={{ fontSize: 13, color: "#5a7a82", marginBottom: 20 }}>
-            {mode === "signup"
-              ? "No credit card required."
-              : "Sign in to continue to edvo."}
+            {mode === "signup" ? "No credit card required." : "Sign in to continue to edvo."}
           </p>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 12,
-          }}>
+          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
 
-            {/* Signup fields */}
             {mode === "signup" && (
               <input
                 type="text"
@@ -266,20 +251,9 @@ export default function LandingPage() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                style={{
-                  width: "100%",
-                  padding: "12px 16px",
-                  fontSize: 14,
-                  borderRadius: 10,
-                  border: "1.5px solid #b8d4d8",
-                  outline: "none",
-                  color: "#071e22",
-                  backgroundColor: "#ffffff",
-                  fontFamily: "system-ui, sans-serif",
-                  boxSizing: "border-box",
-                }}
-                onFocus={(e) => (e.target.style.borderColor = "#0d7a8c")}
-                onBlur={(e) => (e.target.style.borderColor = "#b8d4d8")}
+                style={inputStyle}
+                onFocus={(e) => (e.target.style.borderColor = "#007090")}
+                onBlur={(e) => (e.target.style.borderColor = "#a0c8d8")}
               />
             )}
 
@@ -289,20 +263,9 @@ export default function LandingPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "12px 16px",
-                fontSize: 14,
-                borderRadius: 10,
-                border: "1.5px solid #b8d4d8",
-                outline: "none",
-                color: "#071e22",
-                backgroundColor: "#ffffff",
-                fontFamily: "system-ui, sans-serif",
-                boxSizing: "border-box",
-              }}
-              onFocus={(e) => (e.target.style.borderColor = "#0d7a8c")}
-              onBlur={(e) => (e.target.style.borderColor = "#b8d4d8")}
+              style={inputStyle}
+              onFocus={(e) => (e.target.style.borderColor = "#007090")}
+              onBlur={(e) => (e.target.style.borderColor = "#a0c8d8")}
             />
 
             <input
@@ -311,31 +274,14 @@ export default function LandingPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "12px 16px",
-                fontSize: 14,
-                borderRadius: 10,
-                border: "1.5px solid #b8d4d8",
-                outline: "none",
-                color: "#071e22",
-                backgroundColor: "#ffffff",
-                fontFamily: "system-ui, sans-serif",
-                boxSizing: "border-box",
-              }}
-              onFocus={(e) => (e.target.style.borderColor = "#0d7a8c")}
-              onBlur={(e) => (e.target.style.borderColor = "#b8d4d8")}
+              style={inputStyle}
+              onFocus={(e) => (e.target.style.borderColor = "#007090")}
+              onBlur={(e) => (e.target.style.borderColor = "#a0c8d8")}
             />
 
-            {/* Year level selector */}
             {mode === "signup" && (
               <div>
-                <div style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: "#1a3a40",
-                  marginBottom: 8,
-                }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: "#1a3a40", marginBottom: 8 }}>
                   Year level
                 </div>
                 <div style={{ display: "flex", gap: 8 }}>
@@ -349,14 +295,13 @@ export default function LandingPage() {
                         padding: "9px 0",
                         borderRadius: 9,
                         border: "1.5px solid",
-                        borderColor: yearLevel === y ? "#0d7a8c" : "#b8d4d8",
-                        backgroundColor: yearLevel === y ? "#e0f5f8" : "#ffffff",
-                        color: yearLevel === y ? "#0d7a8c" : "#5a7a82",
+                        borderColor: yearLevel === y ? "#007090" : "#a0c8d8",
+                        backgroundColor: yearLevel === y ? "#e0f0f5" : "#ffffff",
+                        color: yearLevel === y ? "#007090" : "#5a7a82",
                         fontSize: 13,
                         fontWeight: yearLevel === y ? 600 : 400,
                         cursor: "pointer",
                         fontFamily: "system-ui, sans-serif",
-                        transition: "all 0.15s",
                       }}
                     >
                       {y}
@@ -366,25 +311,13 @@ export default function LandingPage() {
               </div>
             )}
 
-            {/* Subject selector */}
             {mode === "signup" && (
               <div>
-                <div style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  color: "#1a3a40",
-                  marginBottom: 8,
-                }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: "#1a3a40", marginBottom: 8 }}>
                   Your subjects{" "}
-                  <span style={{ color: "#5a7a82", fontWeight: 400 }}>
-                    (select all that apply)
-                  </span>
+                  <span style={{ color: "#5a7a82", fontWeight: 400 }}>(select all that apply)</span>
                 </div>
-                <div style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: 7,
-                }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
                   {SUBJECTS.map((s) => (
                     <button
                       key={s}
@@ -394,15 +327,9 @@ export default function LandingPage() {
                         padding: "6px 12px",
                         borderRadius: 20,
                         border: "1.5px solid",
-                        borderColor: selectedSubjects.includes(s)
-                          ? "#0d7a8c"
-                          : "#b8d4d8",
-                        backgroundColor: selectedSubjects.includes(s)
-                          ? "#e0f5f8"
-                          : "#ffffff",
-                        color: selectedSubjects.includes(s)
-                          ? "#0d7a8c"
-                          : "#5a7a82",
+                        borderColor: selectedSubjects.includes(s) ? "#007090" : "#a0c8d8",
+                        backgroundColor: selectedSubjects.includes(s) ? "#e0f0f5" : "#ffffff",
+                        color: selectedSubjects.includes(s) ? "#007090" : "#5a7a82",
                         fontSize: 12,
                         fontWeight: selectedSubjects.includes(s) ? 600 : 400,
                         cursor: "pointer",
@@ -417,7 +344,6 @@ export default function LandingPage() {
               </div>
             )}
 
-            {/* Error */}
             {error && (
               <div style={{
                 fontSize: 12,
@@ -430,7 +356,6 @@ export default function LandingPage() {
               </div>
             )}
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
@@ -441,27 +366,22 @@ export default function LandingPage() {
                 fontWeight: 600,
                 borderRadius: 10,
                 border: "none",
-                backgroundColor: loading ? "#5a7a82" : "#0d7a8c",
+                backgroundColor: loading ? "#5a7a82" : "#007090",
                 color: "#ffffff",
                 cursor: loading ? "not-allowed" : "pointer",
                 marginTop: 4,
                 fontFamily: "system-ui, sans-serif",
               }}
             >
-              {loading
-                ? "Please wait..."
-                : mode === "signup"
-                  ? "Create account →"
-                  : "Sign in →"}
+              {loading ? "Please wait..." : mode === "signup" ? "Create account →" : "Sign in →"}
             </button>
           </form>
 
-          {/* Below form */}
           <div style={{ marginTop: 16, textAlign: "center" }}>
             {mode === "login" && (
               <p style={{ fontSize: 12, color: "#5a7a82" }}>
                 <span
-                  style={{ color: "#0d7a8c", cursor: "pointer" }}
+                  style={{ color: "#007090", cursor: "pointer" }}
                   onClick={() => router.push("/forgot-password")}
                 >
                   Forgot your password?
@@ -471,16 +391,15 @@ export default function LandingPage() {
             {mode === "signup" && (
               <p style={{ fontSize: 12, color: "#5a7a82", lineHeight: 1.6 }}>
                 By creating an account you agree to our{" "}
-                <span style={{ color: "#0d7a8c", cursor: "pointer" }}>Terms</span>
+                <span style={{ color: "#007090", cursor: "pointer" }}>Terms</span>
                 {" "}and{" "}
-                <span style={{ color: "#0d7a8c", cursor: "pointer" }}>Privacy Policy</span>.
+                <span style={{ color: "#007090", cursor: "pointer" }}>Privacy Policy</span>.
               </p>
             )}
           </div>
 
         </div>
       </div>
-
     </div>
   );
 }
