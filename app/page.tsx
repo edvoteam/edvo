@@ -30,47 +30,76 @@ export default function Home() {
       </div>
 
       {/* HERO SECTION */}
-      <div className="flex flex-col md:flex-row items-center justify-between px-8 py-16 max-w-6xl mx-auto">
+      <div className="bg-gradient-to-r from-[#0f6f7f] to-[#138a9e] text-white px-8 py-16">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
 
-        {/* LEFT TEXT */}
-        <div className="max-w-lg">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-            Your Personal AI Tutor for{" "}
-            <span className="text-[#0f6f7f]">Year 11 & 12</span>
-          </h1>
+          {/* LEFT CONTENT */}
+          <div className="max-w-xl">
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
+              Learn Smarter. <br /> Score Higher.
+            </h1>
 
-          <p className="text-gray-600 text-lg mb-6">
-            Get instant help with your subjects, understand concepts faster,
-            and prepare for exams with confidence.
-          </p>
+            <p className="text-white/90 text-lg mb-6">
+              Your AI-powered tutor for Year 11 & 12.
+              Get instant help, understand concepts faster,
+              and ace your exams.
+            </p>
 
-          <div className="flex gap-4">
             <button
               onClick={() => router.push("/signup")}
               className="bg-[#facc15] text-black px-6 py-3 rounded-lg font-semibold hover:scale-105 transition"
             >
               Start Learning Free
             </button>
+          </div>
+
+          {/* RIGHT FORM CARD */}
+          <div className="bg-white text-black rounded-2xl p-6 w-full max-w-sm shadow-xl">
+
+            <h2 className="text-xl font-bold mb-4 text-center">
+              Get Started Free
+            </h2>
+
+            <input
+              type="text"
+              placeholder="Full Name"
+              className="w-full mb-3 p-3 border rounded-lg"
+            />
+
+            <input
+              type="email"
+              placeholder="Email"
+              className="w-full mb-3 p-3 border rounded-lg"
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full mb-4 p-3 border rounded-lg"
+            />
 
             <button
-              onClick={() => router.push("/login")}
-              className="border border-gray-300 px-6 py-3 rounded-lg"
+              onClick={() => router.push("/signup")}
+              className="w-full bg-[#0f6f7f] text-white py-3 rounded-lg font-semibold hover:opacity-90"
             >
-              Login
+              Create Account
             </button>
-          </div>
-        </div>
 
-        {/* RIGHT VISUAL (placeholder box) */}
-        <div className="mt-10 md:mt-0">
-          <div className="w-[300px] h-[300px] bg-[#0f6f7f] rounded-2xl flex items-center justify-center text-white text-xl font-semibold">
-            AI Tutor
+            <p className="text-sm text-center mt-3 text-gray-500">
+              Already have an account?{" "}
+              <span
+                onClick={() => router.push("/login")}
+                className="text-[#0f6f7f] cursor-pointer"
+              >
+                Login
+              </span>
+            </p>
           </div>
-        </div>
 
+        </div>
       </div>
 
-      {/* FEATURES */}
+      {/* FEATURES SECTION */}
       <div className="bg-gray-50 py-16 px-8">
         <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8 text-center">
 
