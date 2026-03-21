@@ -7,11 +7,31 @@ export default function DashboardPage() {
   const router = useRouter();
   const [activePage, setActivePage] = useState("dashboard");
   const [userName, setUserName] = useState("there");
+  const [yearLevel, setYearLevel] = useState("");
+  const [subjects, setSubjects] = useState<string[]>([]);
 
   useEffect(() => {
-    const stored = localStorage.getItem("edvo_user_name");
-    if (stored) setUserName(stored.split(" ")[0]);
+    const storedName = localStorage.getItem("edvo_user_name");
+    const storedYear = localStorage.getItem("edvo_year_level");
+    const storedSubjects = localStorage.getItem("edvo_subjects");
+
+    if (storedName) setUserName(storedName.split(" ")[0]);
+    if (storedYear) setYearLevel(storedYear);
+    if (storedSubjects) {
+      try {
+        setSubjects(JSON.parse(storedSubjects));
+      } catch {
+        setSubjects([]);
+      }
+    }
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("edvo_user_name");
+    localStorage.removeItem("edvo_year_level");
+    localStorage.removeItem("edvo_subjects");
+    router.push("/");
+  };
 
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: "⊞" },
@@ -21,10 +41,18 @@ export default function DashboardPage() {
     { id: "settings", label: "Settings", icon: "⚙️" },
   ];
 
-  const handleLogout = () => {
-    localStorage.removeItem("edvo_user_name");
-    router.push("/");
-  };
+  const subjectColors = [
+    "#0d7a8c",
+    "#f5c518",
+    "#0f9b6e",
+    "#d4860a",
+    "#7c3aed",
+    "#c0392b",
+    "#0e9db5",
+    "#1a3a40",
+    "#5a7a82",
+    "#b8d4d8",
+  ];
 
   return (
     <div style={{
@@ -45,7 +73,6 @@ export default function DashboardPage() {
         padding: "28px 14px",
         flexShrink: 0,
       }}>
-
         <div>
           <img
             src="/logo.png"
@@ -59,7 +86,6 @@ export default function DashboardPage() {
               marginLeft: 8,
             }}
           />
-
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             {navItems.map((item) => (
               <button
@@ -125,7 +151,7 @@ export default function DashboardPage() {
               {userName}
             </div>
             <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)" }}>
-              Year 12
+              {yearLevel || "Student"}
             </div>
           </div>
         </div>
@@ -155,7 +181,12 @@ export default function DashboardPage() {
               Dashboard
             </div>
             <div style={{ fontSize: 12, color: "#5a7a82" }}>
-              Saturday, 21 March 2025
+              {new Date().toLocaleDateString("en-AU", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
             </div>
           </div>
           <button
@@ -213,7 +244,9 @@ export default function DashboardPage() {
                 Good morning, {userName} 👋
               </div>
               <div style={{ fontSize: 13, color: "rgba(255,255,255,0.6)" }}>
-                You have 3 topics to review before your Chemistry exam.
+                {subjects.length > 0
+                  ? `You are studying ${subjects.length} subject${subjects.length > 1 ? "s" : ""} this year.`
+                  : "Welcome to edvo — your AI study platform."}
               </div>
             </div>
             <button
@@ -243,9 +276,24 @@ export default function DashboardPage() {
             marginBottom: 20,
           }}>
             {[
-              { label: "Study streak", value: "7 days", sub: "Keep it up!", color: "#f5c518" },
-              { label: "Topics completed", value: "12 / 18", sub: "Chemistry", color: "#0d7a8c" },
-              { label: "Quiz average", value: "84%", sub: "Last 5 quizzes", color: "#0f9b6e" },
+              {
+                label: "Year level",
+                value: yearLevel || "—",
+                sub: "Current year",
+                color: "#0d7a8c",
+              },
+              {
+                label: "Subjects",
+                value: subjects.length > 0 ? `${subjects.length}` : "—",
+                sub: "Enrolled subjects",
+                color: "#f5c518",
+              },
+              {
+                label: "AI Tutor",
+                value: "24/7",
+                sub: "Always available",
+                color: "#0f9b6e",
+              },
             ].map((stat) => (
               <div key={stat.label} style={{
                 backgroundColor: "#ffffff",
@@ -295,46 +343,47 @@ export default function DashboardPage() {
               }}>
                 Your Subjects
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {[
-                  { name: "Chemistry", progress: 78, color: "#0d7a8c" },
-                  { name: "Mathematics", progress: 65, color: "#f5c518" },
-                  { name: "Physics", progress: 90, color: "#0f9b6e" },
-                  { name: "English", progress: 50, color: "#d4860a" },
-                ].map((subject) => (
-                  <div key={subject.name}>
-                    <div style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginBottom: 5,
-                    }}>
-                      <span style={{ fontSize: 13, color: "#1a3a40" }}>
-                        {subject.name}
-                      </span>
-                      <span style={{
-                        fontSize: 12,
-                        fontWeight: 600,
-                        color: subject.color,
-                      }}>
-                        {subject.progress}%
-                      </span>
-                    </div>
-                    <div style={{
-                      height: 5,
-                      backgroundColor: "#f2f8f9",
-                      borderRadius: 3,
-                      overflow: "hidden",
-                    }}>
+
+              {subjects.length === 0 ? (
+                <div style={{ fontSize: 13, color: "#5a7a82" }}>
+                  No subjects added yet.
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {subjects.map((subject, i) => (
+                    <div key={subject}>
                       <div style={{
-                        height: "100%",
-                        width: `${subject.progress}%`,
-                        backgroundColor: subject.color,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        marginBottom: 5,
+                      }}>
+                        <span style={{ fontSize: 13, color: "#1a3a40" }}>
+                          {subject}
+                        </span>
+                        <span style={{
+                          fontSize: 11,
+                          color: "#5a7a82",
+                        }}>
+                          In progress
+                        </span>
+                      </div>
+                      <div style={{
+                        height: 5,
+                        backgroundColor: "#f2f8f9",
                         borderRadius: 3,
-                      }} />
+                        overflow: "hidden",
+                      }}>
+                        <div style={{
+                          height: "100%",
+                          width: "10%",
+                          backgroundColor: subjectColors[i % subjectColors.length],
+                          borderRadius: 3,
+                        }} />
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Quick actions */}
@@ -354,9 +403,24 @@ export default function DashboardPage() {
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {[
-                  { label: "Ask the AI Tutor", sub: "Get instant help", icon: "💬", route: "/tutor" },
-                  { label: "Continue Notes", sub: "Chemistry — Redox", icon: "📝", route: "/notes" },
-                  { label: "Take a Quiz", sub: "Test your knowledge", icon: "🎯", route: "/quiz" },
+                  {
+                    label: "Ask the AI Tutor",
+                    sub: "Get instant help",
+                    icon: "💬",
+                    route: "/tutor",
+                  },
+                  {
+                    label: "Continue Notes",
+                    sub: subjects[0] ? `${subjects[0]}` : "Pick a subject",
+                    icon: "📝",
+                    route: "/notes",
+                  },
+                  {
+                    label: "Take a Quiz",
+                    sub: "Test your knowledge",
+                    icon: "🎯",
+                    route: "/quiz",
+                  },
                 ].map((action) => (
                   <button
                     key={action.label}
@@ -417,64 +481,13 @@ export default function DashboardPage() {
             }}>
               Recent Activity
             </div>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              {[
-                { action: "Completed quiz", detail: "Chemistry — Redox Reactions", time: "2 hours ago", icon: "🎯", score: "8/10" },
-                { action: "AI Tutor session", detail: "Asked 4 questions on Calculus", time: "Yesterday", icon: "💬", score: null },
-                { action: "Notes updated", detail: "Physics — Motion & Forces", time: "2 days ago", icon: "📝", score: null },
-              ].map((item, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 14,
-                    padding: "12px 0",
-                    borderBottom: i < 2 ? "1px solid #f2f8f9" : "none",
-                  }}
-                >
-                  <div style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: 10,
-                    backgroundColor: "#f2f8f9",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 16,
-                    flexShrink: 0,
-                  }}>
-                    {item.icon}
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{
-                      fontSize: 13,
-                      fontWeight: 600,
-                      color: "#071e22",
-                    }}>
-                      {item.action}
-                    </div>
-                    <div style={{ fontSize: 12, color: "#5a7a82" }}>
-                      {item.detail}
-                    </div>
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    {item.score && (
-                      <div style={{
-                        fontSize: 13,
-                        fontWeight: 600,
-                        color: "#0f9b6e",
-                        marginBottom: 2,
-                      }}>
-                        {item.score}
-                      </div>
-                    )}
-                    <div style={{ fontSize: 11, color: "#5a7a82" }}>
-                      {item.time}
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <div style={{
+              fontSize: 13,
+              color: "#5a7a82",
+              textAlign: "center",
+              padding: "20px 0",
+            }}>
+              No activity yet — start by asking the AI Tutor a question!
             </div>
           </div>
 

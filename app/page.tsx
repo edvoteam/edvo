@@ -3,24 +3,66 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+const SUBJECTS = [
+  "Chemistry",
+  "Mathematical Methods",
+  "Specialist Mathematics",
+  "Physics",
+  "Biology",
+  "English Literary Studies",
+  "English",
+  "Modern History",
+  "Economics",
+  "Psychology",
+  "Legal Studies",
+];
+
+const YEAR_LEVELS = ["Year 10", "Year 11", "Year 12"];
+
 export default function LandingPage() {
   const router = useRouter();
   const [mode, setMode] = useState<"signup" | "login">("signup");
+
+  // Sign up fields
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [yearLevel, setYearLevel] = useState("");
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+
+  // UI state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const toggleSubject = (subject: string) => {
+    setSelectedSubjects((prev) =>
+      prev.includes(subject)
+        ? prev.filter((s) => s !== subject)
+        : [...prev, subject]
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (mode === "signup") {
+      if (!yearLevel) {
+        setError("Please select your year level.");
+        return;
+      }
+      if (selectedSubjects.length === 0) {
+        setError("Please select at least one subject.");
+        return;
+      }
+    }
+
     setLoading(true);
 
     const endpoint = mode === "signup" ? "/api/signup" : "/api/login";
     const body =
       mode === "signup"
-        ? JSON.stringify({ name, email, password })
+        ? JSON.stringify({ name, email, password, yearLevel, subjects: selectedSubjects })
         : JSON.stringify({ email, password });
 
     try {
@@ -38,8 +80,12 @@ export default function LandingPage() {
 
       if (mode === "signup") {
         localStorage.setItem("edvo_user_name", name);
+        localStorage.setItem("edvo_year_level", yearLevel);
+        localStorage.setItem("edvo_subjects", JSON.stringify(selectedSubjects));
       } else {
         localStorage.setItem("edvo_user_name", data.user?.name || email);
+        localStorage.setItem("edvo_year_level", data.user?.yearLevel || "");
+        localStorage.setItem("edvo_subjects", JSON.stringify(data.user?.subjects || []));
       }
 
       router.push("/dashboard");
@@ -67,8 +113,6 @@ export default function LandingPage() {
         justifyContent: "space-between",
         padding: "48px 56px",
       }}>
-
-        {/* Logo */}
         <div>
           <img
             src="/logo.png"
@@ -82,7 +126,6 @@ export default function LandingPage() {
           />
         </div>
 
-        {/* Hero copy */}
         <div>
           <div style={{
             display: "inline-block",
@@ -151,9 +194,10 @@ export default function LandingPage() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "48px 56px",
+        padding: "40px 56px",
+        overflowY: "auto",
       }}>
-        <div style={{ width: "100%", maxWidth: 360 }}>
+        <div style={{ width: "100%", maxWidth: 380 }}>
 
           {/* Toggle */}
           <div style={{
@@ -161,7 +205,7 @@ export default function LandingPage() {
             backgroundColor: "#f2f8f9",
             borderRadius: 12,
             padding: 4,
-            marginBottom: 32,
+            marginBottom: 28,
           }}>
             {(["signup", "login"] as const).map((m) => (
               <button
@@ -187,26 +231,30 @@ export default function LandingPage() {
             ))}
           </div>
 
+          {/* Heading */}
           <h2 style={{
-            fontSize: 26,
+            fontSize: 24,
             fontWeight: 600,
             color: "#071e22",
-            marginBottom: 6,
+            marginBottom: 4,
             fontFamily: "Georgia, serif",
           }}>
             {mode === "signup" ? "Get started free" : "Welcome back"}
           </h2>
-          <p style={{ fontSize: 13, color: "#5a7a82", marginBottom: 24 }}>
+          <p style={{ fontSize: 13, color: "#5a7a82", marginBottom: 20 }}>
             {mode === "signup"
               ? "No credit card required."
               : "Sign in to continue to edvo."}
           </p>
 
+          {/* Form */}
           <form onSubmit={handleSubmit} style={{
             display: "flex",
             flexDirection: "column",
             gap: 12,
           }}>
+
+            {/* Signup fields */}
             {mode === "signup" && (
               <input
                 type="text"
@@ -275,6 +323,97 @@ export default function LandingPage() {
               onBlur={(e) => (e.target.style.borderColor = "#b8d4d8")}
             />
 
+            {/* Year level selector */}
+            {mode === "signup" && (
+              <div>
+                <div style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: "#1a3a40",
+                  marginBottom: 8,
+                }}>
+                  Year level
+                </div>
+                <div style={{ display: "flex", gap: 8 }}>
+                  {YEAR_LEVELS.map((y) => (
+                    <button
+                      key={y}
+                      type="button"
+                      onClick={() => setYearLevel(y)}
+                      style={{
+                        flex: 1,
+                        padding: "9px 0",
+                        borderRadius: 9,
+                        border: "1.5px solid",
+                        borderColor: yearLevel === y ? "#0d7a8c" : "#b8d4d8",
+                        backgroundColor: yearLevel === y ? "#e0f5f8" : "#ffffff",
+                        color: yearLevel === y ? "#0d7a8c" : "#5a7a82",
+                        fontSize: 13,
+                        fontWeight: yearLevel === y ? 600 : 400,
+                        cursor: "pointer",
+                        fontFamily: "system-ui, sans-serif",
+                        transition: "all 0.15s",
+                      }}
+                    >
+                      {y}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Subject selector */}
+            {mode === "signup" && (
+              <div>
+                <div style={{
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: "#1a3a40",
+                  marginBottom: 8,
+                }}>
+                  Your subjects{" "}
+                  <span style={{ color: "#5a7a82", fontWeight: 400 }}>
+                    (select all that apply)
+                  </span>
+                </div>
+                <div style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 7,
+                }}>
+                  {SUBJECTS.map((s) => (
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() => toggleSubject(s)}
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: 20,
+                        border: "1.5px solid",
+                        borderColor: selectedSubjects.includes(s)
+                          ? "#0d7a8c"
+                          : "#b8d4d8",
+                        backgroundColor: selectedSubjects.includes(s)
+                          ? "#e0f5f8"
+                          : "#ffffff",
+                        color: selectedSubjects.includes(s)
+                          ? "#0d7a8c"
+                          : "#5a7a82",
+                        fontSize: 12,
+                        fontWeight: selectedSubjects.includes(s) ? 600 : 400,
+                        cursor: "pointer",
+                        fontFamily: "system-ui, sans-serif",
+                        transition: "all 0.15s",
+                      }}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Error */}
             {error && (
               <div style={{
                 fontSize: 12,
@@ -287,6 +426,7 @@ export default function LandingPage() {
               </div>
             )}
 
+            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
@@ -312,7 +452,8 @@ export default function LandingPage() {
             </button>
           </form>
 
-          <div style={{ marginTop: 20, textAlign: "center" }}>
+          {/* Below form */}
+          <div style={{ marginTop: 16, textAlign: "center" }}>
             {mode === "login" && (
               <p style={{ fontSize: 12, color: "#5a7a82" }}>
                 <span
