@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function DashboardLayout({
   children,
@@ -8,6 +8,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <div className="flex min-h-screen">
@@ -19,22 +20,35 @@ export default function DashboardLayout({
           <h1 className="text-xl font-bold mb-8">Edvo</h1>
 
           <div className="flex flex-col gap-3">
+
+            {/* Dashboard */}
             <button
               onClick={() => router.push("/dashboard")}
-              className="text-left hover:bg-white/10 p-2 rounded"
+              className={`flex items-center gap-2 p-2 rounded ${
+                pathname === "/dashboard"
+                  ? "bg-white text-[#0f6f7f]"
+                  : "hover:bg-white/10"
+              }`}
             >
-              Dashboard
+              📊 Dashboard
             </button>
 
+            {/* AI Tutor */}
             <button
               onClick={() => router.push("/tutor")}
-              className="text-left hover:bg-white/10 p-2 rounded"
+              className={`flex items-center gap-2 p-2 rounded ${
+                pathname === "/tutor"
+                  ? "bg-white text-[#0f6f7f]"
+                  : "hover:bg-white/10"
+              }`}
             >
-              AI Tutor
+              🤖 AI Tutor
             </button>
+
           </div>
         </div>
 
+        {/* Logout */}
         <button
           onClick={() => router.push("/login")}
           className="bg-white text-[#0f6f7f] p-2 rounded-lg"
