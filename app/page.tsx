@@ -61,29 +61,17 @@ export default function LandingPage() {
       }}>
 
         {/* Logo */}
+        {/* Logo */}
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{
-            width: 36,
-            height: 36,
-            backgroundColor: "#f5c518",
-            borderRadius: 8,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontWeight: 700,
-            fontSize: 16,
-            color: "#0a5e6d",
-          }}>
-            e
-          </div>
-          <span style={{
-            fontSize: 22,
-            fontWeight: 600,
-            color: "#f5c518",
-            letterSpacing: "-0.3px",
-          }}>
-            edvo
-          </span>
+          <img
+            src="/logo.png"
+            alt="edvo"
+            style={{
+              width: 48,
+              height: 48,
+              objectFit: "contain",
+            }}
+          />
         </div>
 
         {/* Hero copy */}
@@ -312,8 +300,8 @@ export default function LandingPage() {
               {loading
                 ? "Please wait..."
                 : mode === "signup"
-                ? "Create account →"
-                : "Sign in →"}
+                  ? "Create account →"
+                  : "Sign in →"}
             </button>
           </form>
 
