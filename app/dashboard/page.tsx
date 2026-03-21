@@ -9,6 +9,12 @@ export default function DashboardPage() {
   const [userName, setUserName] = useState("there");
   const [yearLevel, setYearLevel] = useState("");
   const [subjects, setSubjects] = useState<string[]>([]);
+  const getGreeting = () => {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
+  };
 
   useEffect(() => {
     const storedName = localStorage.getItem("edvo_user_name");
@@ -241,7 +247,7 @@ export default function DashboardPage() {
                 fontFamily: "Georgia, serif",
                 marginBottom: 4,
               }}>
-                Good morning, {userName} 👋
+                {getGreeting()}, {userName} 👋
               </div>
               <div style={{ fontSize: 13, color: "rgba(255,255,255,0.6)" }}>
                 {subjects.length > 0
