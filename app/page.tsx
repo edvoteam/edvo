@@ -107,24 +107,27 @@ export default function LandingPage() {
       {/* ── LEFT — Brand panel ── */}
       <div style={{
         flex: 1,
-        backgroundColor: "#007090",
+        backgroundColor: "#0d7a8c",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
         padding: "48px 56px",
       }}>
-        <div>
+
+        {/* Top left — logo */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <img
             src="/logo.png"
             alt="edvo"
             style={{
-              width: 200,
-              height: 200,
+              width: 80,
+              height: 80,
               objectFit: "contain",
             }}
           />
         </div>
 
+        {/* Centre — hero copy */}
         <div>
           <div style={{
             display: "inline-block",
@@ -134,7 +137,7 @@ export default function LandingPage() {
             fontWeight: 600,
             padding: "4px 12px",
             borderRadius: 20,
-            marginBottom: 20,
+            marginBottom: 16,
             letterSpacing: "1.5px",
             textTransform: "uppercase",
           }}>
@@ -146,7 +149,7 @@ export default function LandingPage() {
             fontWeight: 600,
             lineHeight: 1.2,
             color: "#ffffff",
-            marginBottom: 20,
+            marginBottom: 16,
             fontFamily: "Georgia, serif",
           }}>
             Study smarter.<br />
@@ -158,9 +161,10 @@ export default function LandingPage() {
             lineHeight: 1.7,
             color: "rgba(255,255,255,0.6)",
             maxWidth: 340,
-            marginBottom: 32,
+            marginBottom: 28,
           }}>
-            Your AI-powered study partner — aligned to the SACE curriculum and available 24/7.
+            Your AI-powered study partner.<br />
+            Aligned to the SACE curriculum and available 24/7.
           </p>
 
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -180,9 +184,11 @@ export default function LandingPage() {
           </div>
         </div>
 
+        {/* Bottom — copyright */}
         <p style={{ fontSize: 11, color: "rgba(255,255,255,0.25)" }}>
           © 2025 edvo · Built for South Australian students
         </p>
+
       </div>
 
       {/* ── RIGHT — Auth panel ── */}
