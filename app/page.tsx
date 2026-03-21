@@ -120,8 +120,8 @@ export default function LandingPage() {
             src="/logo.png"
             alt="edvo"
             style={{
-              width: 100,
-              height: 100,
+              width: 200,
+              height: 200,
               objectFit: "contain",
             }}
           />
