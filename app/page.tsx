@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 export default function LandingPage() {
   const router = useRouter();
@@ -30,14 +29,11 @@ export default function LandingPage() {
         headers: { "Content-Type": "application/json" },
         body,
       });
-
       const data = await res.json();
-
       if (!res.ok) {
         setError(data.error || "Something went wrong");
         return;
       }
-
       router.push("/dashboard");
     } catch {
       setError("Network error. Please try again.");
@@ -47,65 +43,101 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
+    <div style={{
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "row",
+      fontFamily: "system-ui, sans-serif",
+    }}>
 
       {/* ── LEFT — Brand panel ── */}
-      <div
-        className="flex-1 flex flex-col justify-between p-10 md:p-14"
-        style={{ backgroundColor: "#0a5e6d" }}
-      >
+      <div style={{
+        flex: 1,
+        backgroundColor: "#0a5e6d",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        padding: "48px 56px",
+      }}>
+
         {/* Logo */}
-        <div className="flex items-center gap-3">
-          <Image
-            src="/logo.png"
-            alt="edvo logo"
-            width={36}
-            height={36}
-            className="rounded-lg"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-          />
-          <span
-            className="text-2xl font-semibold"
-            style={{ fontFamily: "Georgia, serif", color: "#f5c518" }}
-          >
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{
+            width: 36,
+            height: 36,
+            backgroundColor: "#f5c518",
+            borderRadius: 8,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: 700,
+            fontSize: 16,
+            color: "#0a5e6d",
+          }}>
+            e
+          </div>
+          <span style={{
+            fontSize: 22,
+            fontWeight: 600,
+            color: "#f5c518",
+            letterSpacing: "-0.3px",
+          }}>
             edvo
           </span>
         </div>
 
         {/* Hero copy */}
-        <div className="py-12">
-          <div
-            className="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-6 tracking-widest uppercase"
-            style={{ backgroundColor: "rgba(245,197,24,0.15)", color: "#f5c518" }}
-          >
+        <div>
+          <div style={{
+            display: "inline-block",
+            backgroundColor: "rgba(245,197,24,0.15)",
+            color: "#f5c518",
+            fontSize: 11,
+            fontWeight: 600,
+            padding: "4px 12px",
+            borderRadius: 20,
+            marginBottom: 20,
+            letterSpacing: "1.5px",
+            textTransform: "uppercase",
+          }}>
             Built for SACE · Year 11 &amp; 12
           </div>
 
-          <h1
-            className="text-4xl md:text-5xl font-semibold leading-tight mb-5"
-            style={{ fontFamily: "Georgia, serif", color: "#ffffff" }}
-          >
+          <h1 style={{
+            fontSize: 44,
+            fontWeight: 600,
+            lineHeight: 1.2,
+            color: "#ffffff",
+            marginBottom: 20,
+            fontFamily: "Georgia, serif",
+          }}>
             Study smarter.<br />
             <em style={{ color: "#f5c518" }}>Score higher.</em>
           </h1>
 
-          <p className="text-base leading-relaxed max-w-sm" style={{ color: "rgba(255,255,255,0.6)" }}>
-            Your AI-powered study partner — aligned to the SACE curriculum
-            and available 24/7.
+          <p style={{
+            fontSize: 15,
+            lineHeight: 1.7,
+            color: "rgba(255,255,255,0.6)",
+            maxWidth: 340,
+            marginBottom: 32,
+          }}>
+            Your AI-powered study partner — aligned to the SACE
+            curriculum and available 24/7.
           </p>
 
           {/* Feature pills */}
-          <div className="flex flex-wrap gap-3 mt-8">
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             {["AI Tutor", "Smart Notes", "Practice Quizzes"].map((f) => (
-              <span
-                key={f}
-                className="text-xs font-medium px-3 py-1.5 rounded-full"
-                style={{
-                  backgroundColor: "rgba(255,255,255,0.08)",
-                  color: "rgba(255,255,255,0.7)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                }}
-              >
+              <span key={f} style={{
+                fontSize: 12,
+                fontWeight: 500,
+                padding: "6px 14px",
+                borderRadius: 20,
+                backgroundColor: "rgba(255,255,255,0.08)",
+                color: "rgba(255,255,255,0.7)",
+                border: "1px solid rgba(255,255,255,0.12)",
+              }}>
                 {f}
               </span>
             ))}
@@ -113,32 +145,47 @@ export default function LandingPage() {
         </div>
 
         {/* Footer */}
-        <p className="text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>
+        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.25)" }}>
           © 2025 edvo · Built for South Australian students
         </p>
       </div>
 
       {/* ── RIGHT — Auth panel ── */}
-      <div
-        className="flex-1 flex items-center justify-center p-8 md:p-14"
-        style={{ backgroundColor: "#ffffff" }}
-      >
-        <div className="w-full max-w-sm">
+      <div style={{
+        flex: 1,
+        backgroundColor: "#ffffff",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "48px 56px",
+      }}>
+        <div style={{ width: "100%", maxWidth: 360 }}>
 
-          {/* Toggle tabs */}
-          <div
-            className="flex rounded-xl p-1 mb-8"
-            style={{ backgroundColor: "#f2f8f9" }}
-          >
+          {/* Toggle */}
+          <div style={{
+            display: "flex",
+            backgroundColor: "#f2f8f9",
+            borderRadius: 12,
+            padding: 4,
+            marginBottom: 32,
+          }}>
             {(["signup", "login"] as const).map((m) => (
               <button
                 key={m}
                 onClick={() => { setMode(m); setError(""); }}
-                className="flex-1 py-2.5 text-sm font-medium rounded-lg transition-all duration-200"
                 style={{
+                  flex: 1,
+                  padding: "10px 0",
+                  fontSize: 13,
+                  fontWeight: 500,
+                  borderRadius: 9,
+                  border: "none",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
                   backgroundColor: mode === m ? "#ffffff" : "transparent",
                   color: mode === m ? "#0d7a8c" : "#5a7a82",
                   boxShadow: mode === m ? "0 1px 4px rgba(0,0,0,0.08)" : "none",
+                  fontFamily: "system-ui, sans-serif",
                 }}
               >
                 {m === "signup" ? "Create account" : "Sign in"}
@@ -147,20 +194,24 @@ export default function LandingPage() {
           </div>
 
           {/* Heading */}
-          <h2
-            className="text-2xl font-semibold mb-1"
-            style={{ fontFamily: "Georgia, serif", color: "#071e22" }}
-          >
+          <h2 style={{
+            fontSize: 26,
+            fontWeight: 600,
+            color: "#071e22",
+            marginBottom: 6,
+            fontFamily: "Georgia, serif",
+          }}>
             {mode === "signup" ? "Get started free" : "Welcome back"}
           </h2>
-          <p className="text-sm mb-6" style={{ color: "#5a7a82" }}>
+          <p style={{ fontSize: 13, color: "#5a7a82", marginBottom: 24 }}>
             {mode === "signup"
               ? "No credit card required."
               : "Sign in to continue to edvo."}
           </p>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+
             {mode === "signup" && (
               <input
                 type="text"
@@ -168,11 +219,17 @@ export default function LandingPage() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all"
                 style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  fontSize: 14,
+                  borderRadius: 10,
                   border: "1.5px solid #b8d4d8",
+                  outline: "none",
                   color: "#071e22",
                   backgroundColor: "#ffffff",
+                  fontFamily: "system-ui, sans-serif",
+                  boxSizing: "border-box",
                 }}
                 onFocus={(e) => (e.target.style.borderColor = "#0d7a8c")}
                 onBlur={(e) => (e.target.style.borderColor = "#b8d4d8")}
@@ -185,11 +242,17 @@ export default function LandingPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all"
               style={{
+                width: "100%",
+                padding: "12px 16px",
+                fontSize: 14,
+                borderRadius: 10,
                 border: "1.5px solid #b8d4d8",
+                outline: "none",
                 color: "#071e22",
                 backgroundColor: "#ffffff",
+                fontFamily: "system-ui, sans-serif",
+                boxSizing: "border-box",
               }}
               onFocus={(e) => (e.target.style.borderColor = "#0d7a8c")}
               onBlur={(e) => (e.target.style.borderColor = "#b8d4d8")}
@@ -201,35 +264,49 @@ export default function LandingPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-xl px-4 py-3 text-sm outline-none transition-all"
               style={{
+                width: "100%",
+                padding: "12px 16px",
+                fontSize: 14,
+                borderRadius: 10,
                 border: "1.5px solid #b8d4d8",
+                outline: "none",
                 color: "#071e22",
                 backgroundColor: "#ffffff",
+                fontFamily: "system-ui, sans-serif",
+                boxSizing: "border-box",
               }}
               onFocus={(e) => (e.target.style.borderColor = "#0d7a8c")}
               onBlur={(e) => (e.target.style.borderColor = "#b8d4d8")}
             />
 
-            {/* Error message */}
             {error && (
-              <div
-                className="text-xs px-3 py-2.5 rounded-lg"
-                style={{ backgroundColor: "#faeae8", color: "#c0392b" }}
-              >
+              <div style={{
+                fontSize: 12,
+                color: "#c0392b",
+                backgroundColor: "#faeae8",
+                padding: "10px 14px",
+                borderRadius: 8,
+              }}>
                 {error}
               </div>
             )}
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl text-sm font-semibold mt-1 transition-all duration-200"
               style={{
+                width: "100%",
+                padding: "13px",
+                fontSize: 14,
+                fontWeight: 600,
+                borderRadius: 10,
+                border: "none",
                 backgroundColor: loading ? "#5a7a82" : "#0d7a8c",
                 color: "#ffffff",
                 cursor: loading ? "not-allowed" : "pointer",
+                marginTop: 4,
+                fontFamily: "system-ui, sans-serif",
               }}
             >
               {loading
@@ -240,30 +317,24 @@ export default function LandingPage() {
             </button>
           </form>
 
-          {/* Below form */}
-          <div className="mt-5 text-center">
+          {/* Below form links */}
+          <div style={{ marginTop: 20, textAlign: "center" }}>
             {mode === "login" && (
-              <p className="text-xs" style={{ color: "#5a7a82" }}>
+              <p style={{ fontSize: 12, color: "#5a7a82" }}>
                 <span
-                  className="cursor-pointer hover:underline"
-                  style={{ color: "#0d7a8c" }}
+                  style={{ color: "#0d7a8c", cursor: "pointer" }}
+                  onClick={() => router.push("/forgot-password")}
                 >
                   Forgot your password?
                 </span>
               </p>
             )}
-
             {mode === "signup" && (
-              <p className="text-xs leading-relaxed" style={{ color: "#5a7a82" }}>
+              <p style={{ fontSize: 12, color: "#5a7a82", lineHeight: 1.6 }}>
                 By creating an account you agree to our{" "}
-                <span className="cursor-pointer hover:underline" style={{ color: "#0d7a8c" }}>
-                  Terms
-                </span>{" "}
-                and{" "}
-                <span className="cursor-pointer hover:underline" style={{ color: "#0d7a8c" }}>
-                  Privacy Policy
-                </span>
-                .
+                <span style={{ color: "#0d7a8c", cursor: "pointer" }}>Terms</span>
+                {" "}and{" "}
+                <span style={{ color: "#0d7a8c", cursor: "pointer" }}>Privacy Policy</span>.
               </p>
             )}
           </div>
