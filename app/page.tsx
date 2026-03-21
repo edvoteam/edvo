@@ -107,7 +107,7 @@ export default function LandingPage() {
       {/* ── LEFT — Brand panel ── */}
       <div style={{
         flex: 1,
-        backgroundColor: "#0d7a8c",
+        backgroundColor: "#007090",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -118,10 +118,9 @@ export default function LandingPage() {
             src="/logo.png"
             alt="edvo"
             style={{
-              width: 140,
-              height: 140,
+              width: 200,
+              height: 200,
               objectFit: "contain",
-              mixBlendMode: "luminosity",
             }}
           />
         </div>
@@ -447,8 +446,8 @@ export default function LandingPage() {
               {loading
                 ? "Please wait..."
                 : mode === "signup"
-                ? "Create account →"
-                : "Sign in →"}
+                  ? "Create account →"
+                  : "Sign in →"}
             </button>
           </form>
 
