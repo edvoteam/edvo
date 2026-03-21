@@ -53,7 +53,7 @@ export default function LandingPage() {
       {/* ── LEFT — Brand panel ── */}
       <div style={{
         flex: 1,
-        backgroundColor: "#0a5e6d",
+        backgroundColor: "#0d7a8c",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -61,14 +61,15 @@ export default function LandingPage() {
       }}>
 
         {/* Logo */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div>
           <img
             src="/logo.png"
             alt="edvo"
             style={{
-              width: 160,
-              height: 160,
+              width: 140,
+              height: 140,
               objectFit: "contain",
+              mixBlendMode: "screen",
             }}
           />
         </div>
@@ -197,8 +198,11 @@ export default function LandingPage() {
           </p>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-
+          <form onSubmit={handleSubmit} style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 12,
+          }}>
             {mode === "signup" && (
               <input
                 type="text"
@@ -299,8 +303,8 @@ export default function LandingPage() {
               {loading
                 ? "Please wait..."
                 : mode === "signup"
-                  ? "Create account →"
-                  : "Sign in →"}
+                ? "Create account →"
+                : "Sign in →"}
             </button>
           </form>
 
@@ -319,9 +323,13 @@ export default function LandingPage() {
             {mode === "signup" && (
               <p style={{ fontSize: 12, color: "#5a7a82", lineHeight: 1.6 }}>
                 By creating an account you agree to our{" "}
-                <span style={{ color: "#0d7a8c", cursor: "pointer" }}>Terms</span>
+                <span style={{ color: "#0d7a8c", cursor: "pointer" }}>
+                  Terms
+                </span>
                 {" "}and{" "}
-                <span style={{ color: "#0d7a8c", cursor: "pointer" }}>Privacy Policy</span>.
+                <span style={{ color: "#0d7a8c", cursor: "pointer" }}>
+                  Privacy Policy
+                </span>.
               </p>
             )}
           </div>
