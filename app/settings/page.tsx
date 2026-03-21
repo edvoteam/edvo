@@ -26,16 +26,16 @@ export default function SettingsPage() {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    const storedName     = localStorage.getItem("edvo_user_name");
-    const storedYear     = localStorage.getItem("edvo_year_level");
+    const storedName = localStorage.getItem("edvo_user_name");
+    const storedYear = localStorage.getItem("edvo_year_level");
     const storedSubjects = localStorage.getItem("edvo_subjects");
-    const storedSchool   = localStorage.getItem("edvo_school");
-    const storedATAR     = localStorage.getItem("edvo_target_atar");
-    if (storedName)     setUserName(storedName);
-    if (storedYear)     setYearLevel(storedYear);
+    const storedSchool = localStorage.getItem("edvo_school");
+    const storedATAR = localStorage.getItem("edvo_target_atar");
+    if (storedName) setUserName(storedName);
+    if (storedYear) setYearLevel(storedYear);
     if (storedSubjects) { try { setSubjects(JSON.parse(storedSubjects)); } catch { setSubjects([]); } }
-    if (storedSchool)   setSchool(storedSchool);
-    if (storedATAR)     setTargetATAR(storedATAR);
+    if (storedSchool) setSchool(storedSchool);
+    if (storedATAR) setTargetATAR(storedATAR);
   }, []);
 
   const toggleSubject = (subject: string) => {
@@ -45,23 +45,23 @@ export default function SettingsPage() {
   };
 
   const showSuccess = (msg: string) => { setSavedMsg(msg); setErrorMsg(""); setTimeout(() => setSavedMsg(""), 3000); };
-  const showError   = (msg: string) => { setErrorMsg(msg); setSavedMsg(""); setTimeout(() => setErrorMsg(""), 3000); };
+  const showError = (msg: string) => { setErrorMsg(msg); setSavedMsg(""); setTimeout(() => setErrorMsg(""), 3000); };
 
   const handleSaveProfile = () => {
-    if (!userName.trim())        { showError("Name cannot be empty."); return; }
-    if (!yearLevel)              { showError("Please select a year level."); return; }
-    if (subjects.length === 0)   { showError("Please select at least one subject."); return; }
-    localStorage.setItem("edvo_user_name",   userName);
-    localStorage.setItem("edvo_year_level",  yearLevel);
-    localStorage.setItem("edvo_subjects",    JSON.stringify(subjects));
-    localStorage.setItem("edvo_school",      school);
+    if (!userName.trim()) { showError("Name cannot be empty."); return; }
+    if (!yearLevel) { showError("Please select a year level."); return; }
+    if (subjects.length === 0) { showError("Please select at least one subject."); return; }
+    localStorage.setItem("edvo_user_name", userName);
+    localStorage.setItem("edvo_year_level", yearLevel);
+    localStorage.setItem("edvo_subjects", JSON.stringify(subjects));
+    localStorage.setItem("edvo_school", school);
     localStorage.setItem("edvo_target_atar", targetATAR);
     showSuccess("Profile saved successfully.");
   };
 
   const handleChangePassword = async () => {
     if (!currentPassword || !newPassword || !confirmPassword) { showError("Please fill in all password fields."); return; }
-    if (newPassword.length < 8)   { showError("New password must be at least 8 characters."); return; }
+    if (newPassword.length < 8) { showError("New password must be at least 8 characters."); return; }
     if (newPassword !== confirmPassword) { showError("New passwords do not match."); return; }
     try {
       const res = await fetch("/api/change-password", {
@@ -85,17 +85,17 @@ export default function SettingsPage() {
 
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: "⊞" },
-    { id: "tutor",     label: "AI Tutor",   icon: "💬" },
-    { id: "notes",     label: "Notes",      icon: "📝" },
-    { id: "quiz",      label: "Quiz",       icon: "🎯" },
-    { id: "settings",  label: "Settings",   icon: "⚙️" },
+    { id: "tutor", label: "AI Tutor", icon: "💬" },
+    { id: "notes", label: "Notes", icon: "📝" },
+    { id: "quiz", label: "Quiz", icon: "🎯" },
+    { id: "settings", label: "Settings", icon: "⚙️" },
   ];
 
   const tabs = [
-    { id: "profile",  label: "Profile" },
+    { id: "profile", label: "Profile" },
     { id: "subjects", label: "Subjects" },
-    { id: "account",  label: "Account" },
-    { id: "about",    label: "About" },
+    { id: "account", label: "Account" },
+    { id: "about", label: "About" },
   ];
 
   const inputStyle: React.CSSProperties = {
@@ -123,10 +123,17 @@ export default function SettingsPage() {
         justifyContent: "space-between", padding: "28px 14px", flexShrink: 0,
       }}>
         <div>
-          <img
-            src="/logo.png" alt="edvo"
-            style={{ width: 100, height: 100, objectFit: "contain", marginBottom: 32, marginLeft: 8 }}
-          />
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}>
+            <img
+              src="/logo.png"
+              alt="edvo"
+              style={{
+                width: 100,
+                height: 100,
+                objectFit: "contain",
+              }}
+            />
+          </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             {navItems.map((item) => (
               <button
@@ -259,14 +266,14 @@ export default function SettingsPage() {
                   <input style={inputStyle} value={userName}
                     onChange={(e) => setUserName(e.target.value)}
                     onFocus={(e) => (e.target.style.borderColor = "#007090")}
-                    onBlur={(e)  => (e.target.style.borderColor = "#a0c8d8")} />
+                    onBlur={(e) => (e.target.style.borderColor = "#a0c8d8")} />
                 </div>
                 <div>
                   <label style={labelStyle}>School</label>
                   <input style={inputStyle} placeholder="e.g. Glenunga International High School"
                     value={school} onChange={(e) => setSchool(e.target.value)}
                     onFocus={(e) => (e.target.style.borderColor = "#007090")}
-                    onBlur={(e)  => (e.target.style.borderColor = "#a0c8d8")} />
+                    onBlur={(e) => (e.target.style.borderColor = "#a0c8d8")} />
                 </div>
                 <div>
                   <label style={labelStyle}>Year level</label>
@@ -294,7 +301,7 @@ export default function SettingsPage() {
                   <input style={inputStyle} placeholder="e.g. 90"
                     value={targetATAR} onChange={(e) => setTargetATAR(e.target.value)}
                     onFocus={(e) => (e.target.style.borderColor = "#007090")}
-                    onBlur={(e)  => (e.target.style.borderColor = "#a0c8d8")} />
+                    onBlur={(e) => (e.target.style.borderColor = "#a0c8d8")} />
                   <div style={{ fontSize: 11, color: "#5a7a82", marginTop: 5 }}>
                     Helps edvo tailor your study recommendations.
                   </div>
@@ -369,21 +376,21 @@ export default function SettingsPage() {
                     <input type="password" style={inputStyle} placeholder="••••••••"
                       value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)}
                       onFocus={(e) => (e.target.style.borderColor = "#007090")}
-                      onBlur={(e)  => (e.target.style.borderColor = "#a0c8d8")} />
+                      onBlur={(e) => (e.target.style.borderColor = "#a0c8d8")} />
                   </div>
                   <div>
                     <label style={labelStyle}>New password</label>
                     <input type="password" style={inputStyle} placeholder="Min. 8 characters"
                       value={newPassword} onChange={(e) => setNewPassword(e.target.value)}
                       onFocus={(e) => (e.target.style.borderColor = "#007090")}
-                      onBlur={(e)  => (e.target.style.borderColor = "#a0c8d8")} />
+                      onBlur={(e) => (e.target.style.borderColor = "#a0c8d8")} />
                   </div>
                   <div>
                     <label style={labelStyle}>Confirm new password</label>
                     <input type="password" style={inputStyle} placeholder="Repeat new password"
                       value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
                       onFocus={(e) => (e.target.style.borderColor = "#007090")}
-                      onBlur={(e)  => (e.target.style.borderColor = "#a0c8d8")} />
+                      onBlur={(e) => (e.target.style.borderColor = "#a0c8d8")} />
                   </div>
                   <button onClick={handleChangePassword} style={{
                     padding: "12px", borderRadius: 10, border: "none",
@@ -445,10 +452,10 @@ export default function SettingsPage() {
                 borderTop: "1px solid #d0e8f0", paddingTop: 20,
               }}>
                 {[
-                  { label: "About edvo",    desc: "Built for Year 11 & 12 students across South Australia" },
+                  { label: "About edvo", desc: "Built for Year 11 & 12 students across South Australia" },
                   { label: "SACE alignment", desc: "All content is aligned to the SACE curriculum framework" },
-                  { label: "AI powered",    desc: "Using OpenAI GPT-4 for intelligent, accurate tutoring responses" },
-                  { label: "Privacy",       desc: "Your data is stored securely and never shared with third parties" },
+                  { label: "AI powered", desc: "Using OpenAI GPT-4 for intelligent, accurate tutoring responses" },
+                  { label: "Privacy", desc: "Your data is stored securely and never shared with third parties" },
                 ].map((item) => (
                   <div key={item.label} style={{
                     padding: "12px 14px", borderRadius: 9, backgroundColor: "#f0f7f9",

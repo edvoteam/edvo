@@ -93,17 +93,17 @@ export default function TutorPage() {
           flexShrink: 0,
         }}>
           <div>
-            <img
-              src="/logo.png"
-              alt="edvo"
-              style={{
-                width: 100,
-                height: 100,
-                objectFit: "contain",
-                marginBottom: 32,
-                marginLeft: 8,
-              }}
-            />
+<div style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}>
+  <img
+    src="/logo.png"
+    alt="edvo"
+    style={{
+      width: 100,
+      height: 100,
+      objectFit: "contain",
+    }}
+  />
+</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               {navItems.map((item) => (
                 <button
