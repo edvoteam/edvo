@@ -118,7 +118,7 @@ export default function LandingPage() {
           <img
             src="/logo.png"
             alt="edvo"
-            style={{ width: 80, height: 80, objectFit: "contain" }}
+            style={{ width: 160, height: 160, objectFit: "contain" }}
           />
         </div>
 
