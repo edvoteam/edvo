@@ -107,7 +107,7 @@ export default function LandingPage() {
       {/* ── LEFT — Brand panel ── */}
       <div style={{
         flex: 1,
-        backgroundColor: "#0d7a8c",
+        backgroundColor: "#007090",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -120,8 +120,8 @@ export default function LandingPage() {
             src="/logo.png"
             alt="edvo"
             style={{
-              width: 80,
-              height: 80,
+              width: 100,
+              height: 100,
               objectFit: "contain",
             }}
           />
