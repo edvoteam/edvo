@@ -23,9 +23,9 @@ export default function DashboardPage() {
 
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 18) return "Good afternoon";
-    return "Good evening";
+    if (hour < 12) return "Good Morning";
+    if (hour < 18) return "Good Afternoon";
+    return "Good Evening";
   };
 
   const handleLogout = () => {
@@ -37,15 +37,15 @@ export default function DashboardPage() {
 
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: "⊞" },
-    { id: "tutor",    label: "AI Tutor",   icon: "💬" },
-    { id: "notes",    label: "Notes",      icon: "📝" },
-    { id: "quiz",     label: "Quiz",       icon: "🎯" },
-    { id: "settings", label: "Settings",   icon: "⚙️" },
+    { id: "tutor", label: "AI Tutor", icon: "💬" },
+    { id: "notes", label: "Notes", icon: "📝" },
+    { id: "quiz", label: "Quiz", icon: "🎯" },
+    { id: "settings", label: "Settings", icon: "⚙️" },
   ];
 
   const subjectColors = [
-    "#007090","#f5c518","#0f9b6e","#d4860a",
-    "#7c3aed","#c0392b","#007090","#1a3a40",
+    "#007090", "#f5c518", "#0f9b6e", "#d4860a",
+    "#7c3aed", "#c0392b", "#007090", "#1a3a40",
   ];
 
   return (
@@ -67,17 +67,17 @@ export default function DashboardPage() {
         flexShrink: 0,
       }}>
         <div>
-          <img
-            src="/logo.png"
-            alt="edvo"
-            style={{
-              width: 100,
-              height: 100,
-              objectFit: "contain",
-              marginBottom: 32,
-              marginLeft: 8,
-            }}
-          />
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}>
+            <img
+              src="/logo.png"
+              alt="edvo"
+              style={{
+                width: 100,
+                height: 100,
+                objectFit: "contain",
+              }}
+            />
+          </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             {navItems.map((item) => (
               <button
@@ -229,9 +229,9 @@ export default function DashboardPage() {
             gap: 14, marginBottom: 20,
           }}>
             {[
-              { label: "Year level",  value: yearLevel || "—", sub: "Current year",     color: "#007090" },
-              { label: "Subjects",    value: subjects.length > 0 ? `${subjects.length}` : "—", sub: "Enrolled", color: "#f5c518" },
-              { label: "AI Tutor",    value: "24/7",            sub: "Always available", color: "#0f9b6e" },
+              { label: "Year level", value: yearLevel || "—", sub: "Current year", color: "#007090" },
+              { label: "Subjects", value: subjects.length > 0 ? `${subjects.length}` : "—", sub: "Enrolled", color: "#f5c518" },
+              { label: "AI Tutor", value: "24/7", sub: "Always available", color: "#0f9b6e" },
             ].map((stat) => (
               <div key={stat.label} style={{
                 backgroundColor: "#ffffff", borderRadius: 12,
@@ -293,9 +293,9 @@ export default function DashboardPage() {
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {[
-                  { label: "Ask the AI Tutor", sub: "Get instant help",       icon: "💬", route: "/tutor" },
-                  { label: "Continue Notes",   sub: subjects[0] || "Pick a subject", icon: "📝", route: "/notes" },
-                  { label: "Take a Quiz",      sub: "Test your knowledge",    icon: "🎯", route: "/quiz" },
+                  { label: "Ask the AI Tutor", sub: "Get instant help", icon: "💬", route: "/tutor" },
+                  { label: "Continue Notes", sub: subjects[0] || "Pick a subject", icon: "📝", route: "/notes" },
+                  { label: "Take a Quiz", sub: "Test your knowledge", icon: "🎯", route: "/quiz" },
                 ].map((action) => (
                   <button
                     key={action.label}
