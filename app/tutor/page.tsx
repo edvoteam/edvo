@@ -14,11 +14,14 @@ export default function TutorPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [userName, setUserName] = useState("there");
+  const [yearLevel, setYearLevel] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const stored = localStorage.getItem("edvo_user_name");
+    const storedYear = localStorage.getItem("edvo_year_level");
     if (stored) setUserName(stored.split(" ")[0]);
+    if (storedYear) setYearLevel(storedYear);
   }, []);
 
   useEffect(() => {
@@ -59,10 +62,10 @@ export default function TutorPage() {
 
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: "⊞" },
-    { id: "tutor",     label: "AI Tutor",   icon: "💬" },
-    { id: "notes",     label: "Notes",      icon: "📝" },
-    { id: "quiz",      label: "Quiz",       icon: "🎯" },
-    { id: "settings",  label: "Settings",   icon: "⚙️" },
+    { id: "tutor", label: "AI Tutor", icon: "💬" },
+    { id: "notes", label: "Notes", icon: "📝" },
+    { id: "quiz", label: "Quiz", icon: "🎯" },
+    { id: "settings", label: "Settings", icon: "⚙️" },
   ];
 
   const suggestions = [
@@ -93,17 +96,17 @@ export default function TutorPage() {
           flexShrink: 0,
         }}>
           <div>
-<div style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}>
-  <img
-    src="/logo.png"
-    alt="edvo"
-    style={{
-      width: 100,
-      height: 100,
-      objectFit: "contain",
-    }}
-  />
-</div>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}>
+              <img
+                src="/logo.png"
+                alt="edvo"
+                style={{
+                  width: 100,
+                  height: 100,
+                  objectFit: "contain",
+                }}
+              />
+            </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               {navItems.map((item) => (
                 <button
@@ -164,7 +167,7 @@ export default function TutorPage() {
                 {userName}
               </div>
               <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)" }}>
-                Student
+                {localStorage.getItem("edvo_year_level") || "Student"}
               </div>
             </div>
           </div>
